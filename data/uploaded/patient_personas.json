@@ -1,0 +1,20 @@
+[
+  {
+    "id": "p001",
+    "name": "Ali Khan",
+    "age": 35,
+    "gender": "Male",
+    "condition": "Asthma",
+    "symptoms": ["Cough", "Shortness of breath"],
+    "history": "Diagnosed 3 years ago with mild asthma."
+  },
+  {
+    "id": "p002",
+    "name": "Sara Ahmed",
+    "age": 55,
+    "gender": "Female",
+    "condition": "Hypertension",
+    "symptoms": ["High blood pressure", "Headache"],
+    "history": "Regularly uses ACE inhibitors."
+  }
+]

@@ -1,0 +1,14 @@
+# Environment
+.venv/
+.env
+
+# Cache
+__pycache__/
+*.pyc
+
+# Editor
+.vscode/
+
+# Local data
+uploads/
+dist/

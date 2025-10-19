@@ -1,0 +1,35 @@
+{
+  "id": "asthma_pathway_v3",
+  "title": "Asthma Care Pathway (Enhanced V3)",
+  "version": "3.0.0",
+  "steps": [
+    {
+      "step_id": "initial_assessment",
+      "label": "Initial Assessment",
+      "description": "Collect patient history and symptoms for asthma diagnosis.",
+      "criteria": [],
+      "actions": [
+        {"type": "ask", "question": "Do you experience wheezing or shortness of breath?"}
+      ],
+      "recommendation_type": "assessment",
+      "evidence_level": "NICE NG136",
+      "next": {"criteria_positive": "objective_testing"}
+    },
+    {
+      "step_id": "objective_testing",
+      "label": "Objective Testing",
+      "description": "Perform spirometry or peak flow test to confirm diagnosis.",
+      "criteria": [
+        {"op": "<", "value": 80, "unit": "%", "parameter": "FEV1"}
+      ],
+      "actions": [
+        {"type": "test", "name": "Spirometry"}
+      ],
+      "recommendation_type": "diagnostic",
+      "evidence_level": "NICE NG136"
+    }
+  ],
+  "red_flags": [
+    {"id": "rf1", "description": "Severe breathlessness", "action": "Refer to emergency care"}
+  ]
+}

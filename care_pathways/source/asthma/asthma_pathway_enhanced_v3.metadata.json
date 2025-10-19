@@ -1,0 +1,23 @@
+{
+  "id": "asthma_pathway_v3.metadata",
+  "version": "3.0.0",
+  "status": "draft",
+  "last_reviewed": "2025-10-17",
+  "next_review_due": "2026-10-17",
+  "maintained_by": "Doogie AI Team",
+  "source_map": [
+    {
+      "step_id": "initial_assessment",
+      "source_url": "https://www.nice.org.uk/guidance/ng136",
+      "fetched_at": "2025-10-17T12:00:00Z"
+    }
+  ],
+  "audit_log": [
+    {
+      "timestamp": "2025-10-17T12:05:00Z",
+      "action": "created",
+      "by": "Uzair Madni",
+      "notes": "Initial version of asthma pathway"
+    }
+  ]
+}
