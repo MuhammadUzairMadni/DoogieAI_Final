@@ -1,0 +1,20 @@
+Heart Failure — Summary (Oxford Clinical Style)
+
+Definition:
+Heart failure is a clinical syndrome in which the heart is unable to pump blood adequately to meet metabolic demands or can do so only at elevated filling pressures. It results from structural or functional cardiac impairment.
+
+Key Symptoms/Signs:
+Breathlessness (exertional, orthopnoea, or paroxysmal nocturnal), fatigue, and ankle swelling. Clinical findings include tachycardia, tachypnoea, raised JVP, pulmonary crackles, pleural effusion, hepatomegaly, and peripheral oedema.
+
+Diagnosis:
+Established by symptoms and signs supported by objective evidence of cardiac dysfunction (e.g. echocardiographic abnormalities or raised natriuretic peptides).
+
+Classification:
+HFrEF (≤40%), HFmrEF (41–49%), HFpEF (≥50%).
+
+Management Principles:
+Identify and treat underlying cause (e.g. ischaemia, hypertension, valvular disease).
+Optimise pharmacotherapy (ACE inhibitor/ARNI, β-blocker, MRA; consider SGLT2 inhibitor).
+Manage volume status with diuretics.
+Offer cardiac rehabilitation, device therapy (ICD/CRT) where indicated, and regular specialist follow-up.
+Educate patients on lifestyle modification, adherence, and symptom monitoring.

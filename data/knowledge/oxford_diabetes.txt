@@ -1,0 +1,19 @@
+Gestational Diabetes Mellitus (GDM)
+
+Definition:
+GDM is glucose intolerance of variable severity first recognized during pregnancy, usually resolving after delivery. It results from increased insulin resistance and inadequate compensatory insulin secretion.
+
+Key Symptoms/Signs:
+Typically asymptomatic; may present with excessive fetal growth (macrosomia) or polyhydramnios. Risk factors include obesity, advanced maternal age, prior macrosomic baby, family history of diabetes, and high-risk ethnicity.
+
+Diagnosis:
+By 75 g oral glucose tolerance test (OGTT) at 24–28 weeks:
+• Fasting plasma glucose ≥5.6 mmol/L, or
+• 2-hour plasma glucose ≥7.8 mmol/L (NICE criteria).
+
+Management Principles:
+• Begin with diet modification, weight control, and daily glucose monitoring.
+• Add metformin if targets unmet; insulin if hyperglycaemia persists or metformin contraindicated.
+• Target glucose: fasting <5.3 mmol/L, 1-hr post-meal <7.8 mmol/L.
+• Regular fetal growth scans from 28 weeks; deliver by 40+6 weeks or earlier if complications.
+• Postpartum: reassess glucose tolerance and counsel regarding future type 2 diabetes risk.

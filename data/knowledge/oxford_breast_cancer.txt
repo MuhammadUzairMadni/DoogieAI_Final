@@ -1,0 +1,21 @@
+
+
+Breast Cancer — Summary (Oxford Handbook Style)
+
+Definition:
+A malignant neoplasm arising from the epithelial cells of the breast ducts or lobules. Most are invasive ductal or lobular carcinomas.
+
+Key symptoms/signs:
+Typically presents as a painless, firm breast lump. Other features include nipple retraction or discharge, skin dimpling, or erythema (especially in inflammatory carcinoma). Advanced disease may cause axillary node enlargement or distant metastases (bone, liver, lung, brain).
+
+Diagnosis:
+Established by triple assessment — clinical examination, imaging (mammography ± ultrasound), and core needle biopsy for histopathology and receptor status (ER, PR, HER2).
+
+Management principles:
+Multidisciplinary approach involving surgery (breast-conserving or mastectomy), radiotherapy, and systemic therapy. Systemic therapy includes endocrine (for ER+), chemotherapy (for high-risk or triple-negative), targeted (HER2+ e.g. trastuzumab), and immunotherapy in selected cases. Adjuvant or neoadjuvant therapy is guided by tumour stage, receptor profile, and prognostic indices.
+
+Screening:
+Routine NHS mammography every 3 years for women aged 50–70.
+
+Prognosis:
+Dependent on stage, nodal involvement, and biological subtype; early detection greatly improves survival.

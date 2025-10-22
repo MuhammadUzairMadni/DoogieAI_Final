@@ -1,0 +1,17 @@
+**Cerebrovascular Event (Stroke)**
+
+**Definition:**
+A cerebrovascular event, or stroke, is a sudden interruption of cerebral blood flow causing focal or global neurological deficits lasting >24 hours or leading to death. A transient ischaemic attack (TIA) presents similarly but resolves within 24 hours.
+
+**Key Symptoms/Signs:**
+Abrupt onset of unilateral weakness, numbness, facial droop, dysphasia, visual field loss, or ataxia. Posterior circulation involvement may cause vertigo, diplopia, dysarthria, or “crossed” neurological findings. Headache and reduced consciousness may suggest haemorrhage.
+
+**Diagnosis:**
+Urgent non-contrast CT or MRI brain to distinguish ischaemic from haemorrhagic stroke; assess glucose, ECG, and carotid imaging as indicated.
+
+**Management Principles:**
+
+* **Acute:** Admit to stroke unit; maintain airway, oxygen (>95%), glucose (4–11 mmol/L), and hydration.
+* **Ischaemic stroke:** Give aspirin 300 mg once haemorrhage excluded; consider IV thrombolysis (alteplase within 4.5 h) or thrombectomy (≤24 h if eligible).
+* **Haemorrhagic stroke:** Control blood pressure (target 130–140 mm Hg) and seek neurosurgical input.
+* **Long-term:** Secondary prevention with antiplatelet therapy (clopidogrel), statins, BP control, smoking cessation, and rehabilitation.

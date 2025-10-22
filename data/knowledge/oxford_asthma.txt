@@ -1,0 +1,10 @@
+Asthma is a chronic inflammatory disorder of the airways characterised by reversible bronchial obstruction and hyper-responsiveness, leading to episodic wheeze, breathlessness, chest tightness, and cough.
+
+Key Symptoms/Signs:
+Paroxysmal wheeze, dyspnoea, chest tightness, and cough (often nocturnal or early morning). Symptoms are variable, may be triggered by allergens, cold air, exercise, or infections. Widespread expiratory wheeze on auscultation; severe attacks may present with a silent chest.
+
+Diagnosis:
+Based on typical history and evidence of variable airflow obstruction—demonstrated by spirometry with bronchodilator reversibility, FeNO elevation, or peak flow variability ≥20%.
+
+Management Principles:
+Control airway inflammation, relieve bronchospasm, and prevent exacerbations. Stepwise therapy: start with as-needed inhaled corticosteroid–formoterol (AIR therapy), escalating to MART or higher doses as required. Educate on trigger avoidance, adherence, and inhaler technique. Severe or refractory cases may require biologics (e.g. omalizumab, mepolizumab, tezepelumab). Acute severe asthma warrants urgent management with oxygen, bronchodilators, and corticosteroids.

@@ -1,0 +1,13 @@
+Coronary Heart Disease (CHD)
+
+Definition:
+Coronary heart disease (CHD) is caused by atherosclerotic narrowing of the coronary arteries, leading to reduced myocardial blood flow and oxygen supply. It is the leading cause of death in the UK and worldwide.
+
+Key symptoms/signs:
+Central chest pain or tightness (often radiating to arm, neck, or jaw), dyspnoea, fatigue, and reduced exercise tolerance. Signs may include tachycardia, hypertension, or heart failure features.
+
+Diagnosis:
+Established through clinical assessment, ECG changes, cardiac biomarkers (e.g. troponin), and imaging such as coronary angiography or CT coronary calcium scoring.
+
+Management principles:
+Lifestyle modification (smoking cessation, diet, exercise, weight control). Control of hypertension, diabetes, and dyslipidaemia. Antiplatelet therapy (aspirin), statins, beta-blockers, ACE inhibitors. Revascularisation (PCI or CABG) where indicated. Secondary prevention and cardiac rehabilitation are essential.

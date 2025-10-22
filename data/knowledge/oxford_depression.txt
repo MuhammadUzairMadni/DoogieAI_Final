@@ -1,0 +1,13 @@
+Depression — Summary (Oxford Clinical Style)
+
+Definition:
+Depression is a common psychiatric disorder characterised by persistent low mood and/or loss of interest or pleasure (anhedonia), accompanied by cognitive, emotional, physical, and behavioural disturbances lasting ≥2 weeks.
+
+Key symptoms/signs:
+Low mood, loss of interest or pleasure, fatigue, sleep and appetite disturbance, impaired concentration, feelings of guilt or worthlessness, psychomotor change, and suicidal ideation. Severity ranges from mild to severe; psychotic features may occur.
+
+Diagnosis:
+Clinical diagnosis based on DSM-5 or ICD-11 criteria, requiring ≥5 characteristic symptoms with functional impairment. Exclude organic or drug-induced causes and assess suicide risk.
+
+Management principles:
+Assess severity and suicide risk. Mild cases: psychoeducation, guided self-help, CBT, or behavioural activation. Moderate–severe: combination of antidepressant therapy (usually SSRIs) and psychological treatment. Address comorbidities, ensure follow-up, and consider referral to specialist care for high-risk, chronic, or treatment-resistant cases. ECT may be indicated for severe or life-threatening depression.

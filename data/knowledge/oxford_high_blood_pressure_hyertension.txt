@@ -1,0 +1,17 @@
+**Hypertension — Summary (Oxford Handbook Style)**
+
+**Definition:**
+Persistent elevation of arterial blood pressure ≥140/90 mm Hg (clinic) or ≥135/85 mm Hg (home/ABPM), classified as primary (essential) in ~90% of cases and secondary in ~10% due to renal, endocrine, or vascular causes.
+
+**Key symptoms/signs:**
+Usually asymptomatic; may present with headache, visual disturbance, or signs of end-organ damage (retinopathy, LVH, renal impairment). Severe hypertension may cause confusion, chest pain, dyspnoea, or papilloedema.
+
+**Diagnosis:**
+Confirmed by repeated clinic BP ≥140/90 mm Hg and average ABPM/HBPM ≥135/85 mm Hg. Assess for target organ damage, cardiovascular risk factors, and possible secondary causes.
+
+**Management principles:**
+Lifestyle modification (weight loss, salt/alcohol reduction, exercise, smoking cessation).
+Drug therapy guided by age and ethnicity—typically ACE inhibitor (or ARB), calcium-channel blocker, then thiazide-type diuretic.
+Treat secondary causes where present.
+Urgent referral for BP ≥180/120 mm Hg with end-organ damage (hypertensive emergency).
+Long-term monitoring to maintain BP <140/90 mm Hg (<135/85 mm Hg home) and prevent cardiovascular complications.

@@ -1,29 +1,25 @@
 # ==============================================================
-# Doogie AI - PDF Processing API
+# Doogie AI - Multi-language Medical Reasoning API (Enhanced)
 # ==============================================================
 # Features:
-# - PDF upload & text extraction
-# - Multi-language detection & translation
-# - Medical reasoning using official Doogie Master Prompt
-# - Reference extraction (NICE, Oxford, NHS)
-# - NICE Care Pathway bundle builder
+# - Accepts user prompts in any language
+# - Detects and translates language automatically
+# - Uses NHS/Oxford stored knowledge if available
+# - Dynamically generates NHS/Oxford-style data if not available
+# - Responds in the user's original language
+# - Integrated with Doogie Master Prompt
+# - Deployable on Railway
 # ==============================================================
 
-from fastapi import FastAPI, UploadFile, File, HTTPException, Query
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from docx import Document
 from pydantic import BaseModel
-import shutil
-import PyPDF2
-import fitz  # PyMuPDF
-from PIL import Image
-import io
-import os
-import json
 from dotenv import load_dotenv
 import openai
+import os
 
 # ------------------- Load .env -------------------
 load_dotenv()
@@ -38,17 +34,31 @@ def load_master_prompt(docx_path: str) -> str:
     """Load and combine all paragraphs from the Doogie Master Prompt Word file."""
     try:
         doc = Document(docx_path)
-        full_text = "\n".join([para.text for para in doc.paragraphs if para.text.strip()])
-        return full_text
+        return "\n".join([p.text for p in doc.paragraphs if p.text.strip()])
     except Exception as e:
         raise RuntimeError(f"❌ Error loading master prompt: {str(e)}")
 
-MASTER_PROMPT_PATH = "doogie_master_prompt.docx"
+MASTER_PROMPT_PATH = "Doogie_Master_Prompt.docx"
 MASTER_PROMPT_TEXT = load_master_prompt(MASTER_PROMPT_PATH)
 print("✅ Doogie Master Prompt loaded successfully!")
 
+# ------------------- Load NHS & Oxford Knowledge -------------------
+def load_reference_data():
+    """Load all NHS and Oxford guideline data from knowledge/ folder."""
+    knowledge_dir = Path("knowledge")
+    nhs_data, oxford_data = "", ""
+    for file in knowledge_dir.glob("*.txt"):
+        if "nhs" in file.name.lower():
+            nhs_data += f"\n\n{file.name}:\n" + file.read_text(encoding="utf-8")
+        elif "oxford" in file.name.lower():
+            oxford_data += f"\n\n{file.name}:\n" + file.read_text(encoding="utf-8")
+    return nhs_data, oxford_data
+
+NHS_DATA, OXFORD_DATA = load_reference_data()
+print("✅ NHS & Oxford reference data loaded successfully!")
+
 # ------------------- FastAPI Setup -------------------
-app = FastAPI(title="Doogie AI - PDF Processing API")
+app = FastAPI(title="Doogie AI - Medical Reasoning API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -58,77 +68,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-UPLOAD_DIR = Path("uploads")
-UPLOAD_DIR.mkdir(exist_ok=True)
-
-# ------------------- Upload Endpoint -------------------
-@app.post("/upload-pdf/")
-def upload_pdf(file: UploadFile = File(...)):
-    """Upload and save a PDF to the server."""
-    if not file.filename.lower().endswith(".pdf"):
-        raise HTTPException(status_code=400, detail="Only PDF files are allowed!")
-
-    file_path = UPLOAD_DIR / Path(file.filename).name
-    try:
-        with file_path.open("wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-        return {"message": "✅ PDF uploaded successfully!", "filename": file.filename}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
-
-# ------------------- Extract PDF Metadata -------------------
-def extract_pdf_info(pdf_path: Path) -> dict:
-    info = {}
-    try:
-        with open(pdf_path, "rb") as f:
-            reader = PyPDF2.PdfReader(f)
-            doc_info = reader.metadata
-            if doc_info:
-                info = {k: str(v) for k, v in doc_info.items()}
-            info["num_pages"] = len(reader.pages)
-    except Exception as e:
-        info["error"] = str(e)
-    return info
-
-# ------------------- Extract PDF Text -------------------
-def extract_pdf_text(pdf_path: Path) -> str:
-    text = ""
-    try:
-        doc = fitz.open(pdf_path)
-        for page in doc:
-            text += page.get_text()
-        doc.close()
-    except Exception as e:
-        text = f"Error extracting text: {str(e)}"
-    return text
-
-# ------------------- Extract Images -------------------
-def extract_pdf_images(pdf_path: Path):
-    images = []
-    try:
-        doc = fitz.open(pdf_path)
-        for page_index in range(len(doc)):
-            for img_index, img in enumerate(doc[page_index].get_images(full=True)):
-                xref = img[0]
-                base_image = doc.extract_image(xref)
-                image_data = base_image["image"]
-                image = Image.open(io.BytesIO(image_data))
-                images.append({
-                    "id": f"page{page_index}_img{img_index}",
-                    "width": image.width,
-                    "height": image.height
-                })
-        doc.close()
-    except Exception as e:
-        print("⚠️ Image extraction error:", e)
-    return images
-
 # ------------------- Language Detection -------------------
 def detect_language(text: str) -> str:
     if not text.strip():
-        return "No text to detect"
-    
-    prompt = f"Detect the language of the following text and respond with only the language name:\n\n{text[:1000]}"
+        return "Unknown"
+    prompt = f"Detect the language of this text and respond only with the language name:\n\n{text[:1000]}"
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -139,129 +83,134 @@ def detect_language(text: str) -> str:
     except Exception as e:
         return f"Error detecting language: {str(e)}"
 
-# ------------------- Translation -------------------
+# ------------------- Translation Helpers -------------------
 def translate_to_english(text: str, source_lang: str) -> str:
     if source_lang.lower() == "english":
         return text
+    prompt = f"Translate this {source_lang} medical text into English, preserving meaning:\n\n{text}"
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a professional medical translator."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0
+    )
+    return response.choices[0].message.content.strip()
 
-    prompt = f"Translate this {source_lang} medical report into clear English, preserving medical meaning:\n\n{text[:3000]}"
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a professional medical text translator."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0
-        )
-        return response.choices[0].message.content.strip()
-    except Exception as e:
-        return f"Error translating text: {str(e)}"
+def translate_to_original(text: str, target_lang: str) -> str:
+    if target_lang.lower() == "english":
+        return text
+    prompt = f"Translate this English text into {target_lang}:\n\n{text}"
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a precise multilingual translator."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0
+    )
+    return response.choices[0].message.content.strip()
 
-# ------------------- Analysis (Doogie Master Prompt) -------------------
-def analyze_text_with_doogie(text: str) -> str:
-    """Use the Master Prompt for structured medical reasoning analysis."""
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": MASTER_PROMPT_TEXT},
-                {"role": "user", "content": f"Analyze this patient report:\n\n{text}"}
-            ],
-            temperature=0
-        )
-        return response.choices[0].message.content.strip()
-    except Exception as e:
-        return f"Error analyzing text: {str(e)}"
-
-# ------------------- Reference Extraction -------------------
-class ReferenceRequest(BaseModel):
-    text: str
-
-@app.post("/extract-references/")
-def extract_references(request: ReferenceRequest):
-    text = request.text.strip()
-    if not text:
-        raise HTTPException(status_code=400, detail="No text provided for reference extraction")
-
+# ------------------- Dynamic Knowledge Generator -------------------
+def generate_nhs_style_data(topic: str) -> str:
+    """Generate NHS/Oxford-style summary for unknown conditions."""
     prompt = f"""
-    You are Doogie AI's biomedical reference extraction engine.
-    Extract Oxford, NICE, NHS, or journal references and return valid JSON array.
-    Format:
-    [
-      {{"source": "<reference>", "type": "<Book/NICE/Journal/NHS>", "citation": "<short id>"}}
-    ]
-    Text: {text}
+    You are a medical assistant trained on NHS and Oxford guidelines.
+    Generate a structured summary about '{topic}' using the same style, tone, and structure as NHS and Oxford handbooks.
+    Include:
+    - Overview
+    - Common Symptoms
+    - Causes
+    - Diagnosis and Tests
+    - Treatment and Management
+    - When to Seek Emergency Help
+    Ensure information is medically responsible and evidence-based.
     """
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
+            messages=[{"role": "system", "content": prompt}],
+            temperature=0.2
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        return f"Error generating dynamic knowledge: {str(e)}"
+
+# ------------------- Reasoning Function -------------------
+def analyze_with_doogie(prompt_text: str) -> str:
+    """Use stored or dynamically generated knowledge + Master Prompt."""
+    # Step 1: Try to detect if known condition is in stored data
+    found_data = ""
+    for keyword in ["nhs", "oxford"]:
+        if keyword in prompt_text.lower():
+            found_data = NHS_DATA + "\n\n" + OXFORD_DATA
+            break
+
+    # Step 2: If condition not in knowledge base, generate dynamically
+    if not found_data:
+        dynamic_data = generate_nhs_style_data(prompt_text)
+        context_sources = f"""
+        NHS & Oxford Dynamic Knowledge (Generated):
+        {dynamic_data}
+        """
+    else:
+        context_sources = f"""
+        NHS References:
+        {NHS_DATA[:2500]}
+
+        Oxford Medical Knowledge:
+        {OXFORD_DATA[:2500]}
+        """
+
+    # Step 3: Merge with Master Prompt
+    context = f"""
+    {MASTER_PROMPT_TEXT}
+
+    {context_sources}
+    """
+
+    # Step 4: Send to GPT for reasoning
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You extract and validate medical references."},
-                {"role": "user", "content": prompt}
+                {"role": "system", "content": context},
+                {"role": "user", "content": f"Analyze this query:\n{prompt_text}"}
             ],
             temperature=0
         )
-        return {"references": response.choices[0].message.content.strip()}
+        return response.choices[0].message.content.strip()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error extracting references: {str(e)}")
+        return f"Error during analysis: {str(e)}"
 
-# ------------------- Read + Analyze PDF -------------------
-@app.get("/read-pdf/{filename}")
-def read_pdf_file(filename: str, extract_text: bool = Query(True), extract_images: bool = Query(False)):
-    """Read, translate (if needed), analyze PDF medical report, and extract references."""
-    file_path = UPLOAD_DIR / filename
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail="File not found")
+# ------------------- Request Model -------------------
+class PromptRequest(BaseModel):
+    query: str
 
-    result = {
-        "filename": filename,
-        "metadata": extract_pdf_info(file_path),
-    }
+# ------------------- Main Endpoint -------------------
+@app.post("/ask")
+def ask_doogie(request: PromptRequest):
+    """Accepts patient prompt in any language, reasons with static or dynamic data, replies in same language."""
+    user_input = request.query.strip()
+    if not user_input:
+        raise HTTPException(status_code=400, detail="No input provided.")
 
-    if extract_text:
-        text = extract_pdf_text(file_path)
-        language = detect_language(text)
-        translated = translate_to_english(text, language)
-        analysis = analyze_text_with_doogie(translated)
-        refs = extract_references(ReferenceRequest(text=translated))
+    detected_lang = detect_language(user_input)
+    translated_query = translate_to_english(user_input, detected_lang)
+    analysis_result = analyze_with_doogie(translated_query)
+    final_response = translate_to_original(analysis_result, detected_lang)
 
-        result.update({
-            "language_detected": language,
-            "translated_text": translated,
-            "analysis": analysis,
-            "references": refs,
-        })
-
-    if extract_images:
-        result["images"] = extract_pdf_images(file_path)
-
-    return JSONResponse(content=result)
-
-# ------------------- NICE Care Pathway Bundle Builder -------------------
-from care_pathways.bundle_builder import build_bundle
-
-class PathwayBuildRequest(BaseModel):
-    condition: str
-
-@app.post("/build-pathway-bundle/")
-def build_pathway_bundle(request: PathwayBuildRequest):
-    """Build a NICE Care Pathway Bundle for a specific condition."""
-    try:
-        output_path = build_bundle(request.condition)
-        return {
-            "message": f"✅ {request.condition.capitalize()} pathway bundle built successfully!",
-            "bundle_path": str(output_path)
-        }
-    except FileNotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error building bundle: {str(e)}")
+    return JSONResponse(content={
+        "language_detected": detected_lang,
+        "translated_query": translated_query,
+        "response": final_response
+    })
 
 # ------------------- Root -------------------
 @app.get("/")
 def root():
-    return {"message": "🚀 Doogie AI PDF API running with Translation, Analysis, and Master Prompt Integration!"}
+    return {"message": "🚀 Doogie AI (Enhanced) running with Dynamic NHS/Oxford-style reasoning!"}
 
 # ------------------- Run -------------------
 if __name__ == "__main__":
